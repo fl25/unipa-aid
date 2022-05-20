@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react'
+import { useForm } from 'react-hook-form'
 
 export default function Home() {
   const { register, handleSubmit } = useForm();
@@ -20,10 +20,13 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-        <form action="api/test-score" method='post' encType='multipart/form-data' onSubmit={onSubmit}>
-          <input type="file" name="test" /* accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' */ required/>
+
+        <form action="api/upload-api" method='post' encType='multipart/form-data' onSubmit={onSubmit}>
+          <input type="file" name="upload" /* accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' */ required/>
           <input type="submit" value="送信する" />
         </form>
+
+        <a href="/api/test-score">Download</a>
       </main>
 
       <footer className={styles.footer}>
