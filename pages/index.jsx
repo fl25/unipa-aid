@@ -1,5 +1,9 @@
 import React, { useRef, useState } from 'react'
 import * as XLSX from 'xlsx/xlsx.mjs';
+
+import { AppBar, Button, Box, Card, CardContent, IconButton, Toolbar, Container, Grid } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+
 const Component = () => {
   const fileInput = useRef(null)
   const [fileName, setFileName] = useState('')
@@ -23,10 +27,30 @@ const Component = () => {
     }
   }
   return (
-    <div style={{ padding: '20px' }}>
-      <p style={{ paddingBottom: '20px' }}>Excelファイルをアップロードする</p>
-      <button onClick={() => handleTriggerReadFile()}>ファイル選択</button>
-      {!!fileName && <span>ファイル名：{fileName}</span>}
+    <Box sx={{ width: '60%', margin: 'auto', }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          UNIPA-aid
+        </Toolbar>
+      </AppBar>
+      <Container sx={{ mt: 2, paddingBottom: '20px' }}>Excelファイルをアップロードする</Container>
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+            <Button variant="contained" onClick={() => handleTriggerReadFile()}>ファイル選択</Button>
+        </Grid>
+        <Grid item xs={9}>
+          {!!fileName && <Container>ファイル名：{fileName}</Container>}
+        </Grid>
+      </Grid>
       <form style={{ display: 'none' }}>
         <input
           type="file"
@@ -39,17 +63,13 @@ const Component = () => {
         />
       </form>
       {!!excelData && (
-        <div
-          style={{
-            border: 'solid 1px #444',
-            marginTop: '10px',
-            padding: '10px',
-          }}
-        >
-          {excelData}
-        </div>
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            {excelData}
+          </CardContent>
+        </Card>
       )}
-    </div>
+    </Box>
   )
 }
 export default Component
