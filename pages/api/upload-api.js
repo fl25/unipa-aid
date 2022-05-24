@@ -16,6 +16,8 @@ const upload = multer({
     }),
 });
 
+let downloadData;
+
 export default nextConnect({
     onError(error, req, res) {
         res.status(501).json({ error: `Sorry something Happend! ${error.message}` });
@@ -26,8 +28,11 @@ export default nextConnect({
 })
     .use(upload.single('upload'))
     .post((req, res) => {
+        const isXlsx = req.file.mimetype == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        if (!isXlsx) throw new Error(`MIME type is not 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'`);
         const jsonData = xlsxToJson(req.file.path);
         fs.unlinkSync(req.file.path);
+        res.status(200).json(jsonData);
     });
 
 const  xlsxToJson = (filepath) => {
