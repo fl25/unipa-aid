@@ -22,10 +22,27 @@ const Component = () => {
         const firstSheetName = workbook.SheetNames[0]
         const worksheet = workbook.Sheets[firstSheetName]
         const data = XLSX.utils.sheet_to_json(worksheet)
-        setExcelData(JSON.stringify(data))
+        const json_array = data.map((x) => JSON.stringify(x) )
+        setExcelData(json_array)
       })
     }
   }
+
+  const displayData = (data) => {
+    let list = [];
+    const obj = data.map((x) => JSON.parse(x));
+    for (let element of obj) {
+      list.push(
+        <Card sx={{ margin: 1 }}>
+          <CardContent>
+            {`first: ${element.first}, second: ${element.second}, third: ${element.third}`}
+          </CardContent>
+        </Card>
+      );
+    }
+    return list;
+  };
+
   return (
     <Box sx={{ width: '60%', margin: 'auto', }}>
       <AppBar position="static">
@@ -62,13 +79,7 @@ const Component = () => {
           }}
         />
       </form>
-      {!!excelData && (
-        <Card sx={{ minWidth: 275 }}>
-          <CardContent>
-            {excelData}
-          </CardContent>
-        </Card>
-      )}
+      {!!excelData && (displayData(excelData))}
     </Box>
   )
 }
