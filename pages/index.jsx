@@ -9,6 +9,7 @@ const Component = () => {
   const [fileName, setFileName] = useState('');
   const [excelData, setExcelData] = useState('');
 
+
   const handleTriggerReadFile = () => {
     if (fileInput.current) {
       fileInput.current.click();
@@ -28,9 +29,9 @@ const Component = () => {
     };
   };
 
-  const displayData = (data) => {
+  const displayData = (json_data) => {
     let list = [];
-    const obj = data.map((x) => JSON.parse(x));
+    const obj = json_data.map((x) => JSON.parse(x));
     for (let element of obj) {
       list.push(
         <Card sx={{ margin: 1 }}>
@@ -40,7 +41,20 @@ const Component = () => {
         </Card>
       );
     };
+    const jsonExport = JSON.stringify(obj);
+    list.push(<Button onClick={() => {downloadExcel(jsonExport)}}>Download</Button>);
     return list;
+  };
+
+  const downloadExcel = (data) => {
+    const exportBook = XLSX.utils.book_new();
+    const exportSheet = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(exportBook, exportSheet, 'Sheet1');
+    const fileName = 'export.xlsx';
+    XLSX.writeFile(exportBook, fileName);
+  };
+  const output = (data) => {
+    alert(data);
   };
 
   return (
@@ -79,7 +93,9 @@ const Component = () => {
           }}
         />
       </form>
-      {!!excelData && (displayData(excelData))}
+      {!!excelData && (
+        displayData(excelData)
+      )}
     </Box>
   )
 }
