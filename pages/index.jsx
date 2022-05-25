@@ -1,32 +1,32 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react';
 import * as XLSX from 'xlsx/xlsx.mjs';
 
 import { AppBar, Button, Box, Card, CardContent, IconButton, Toolbar, Container, Grid } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const Component = () => {
-  const fileInput = useRef(null)
-  const [fileName, setFileName] = useState('')
-  const [excelData, setExcelData] = useState('')
+  const fileInput = useRef(null);
+  const [fileName, setFileName] = useState('');
+  const [excelData, setExcelData] = useState('');
 
   const handleTriggerReadFile = () => {
     if (fileInput.current) {
-      fileInput.current.click()
-    }
-  }
+      fileInput.current.click();
+    };
+  };
   const handleReadFile = (fileObj) => {
     if (fileObj) {
-      setFileName(fileObj.name)
+      setFileName(fileObj.name);
       fileObj.arrayBuffer().then((buffer) => {
-        const workbook = XLSX.read(buffer, { type: 'buffer', bookVBA: true })
-        const firstSheetName = workbook.SheetNames[0]
-        const worksheet = workbook.Sheets[firstSheetName]
-        const data = XLSX.utils.sheet_to_json(worksheet)
-        const json_array = data.map((x) => JSON.stringify(x) )
-        setExcelData(json_array)
-      })
-    }
-  }
+        const workbook = XLSX.read(buffer, { type: 'buffer', bookVBA: true });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const data = XLSX.utils.sheet_to_json(worksheet);
+        const json_array = data.map((x) => JSON.stringify(x) );
+        setExcelData(json_array);
+      });
+    };
+  };
 
   const displayData = (data) => {
     let list = [];
@@ -35,11 +35,11 @@ const Component = () => {
       list.push(
         <Card sx={{ margin: 1 }}>
           <CardContent>
-            {`first: ${element.first}, second: ${element.second}, third: ${element.third}`}
+            {`first: ${element['一番目']}, second: ${element['二番目']}, third: ${element['三番目']}`}
           </CardContent>
         </Card>
       );
-    }
+    };
     return list;
   };
 
